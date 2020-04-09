@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../angular.js"></script>
+</head>
+<body ng-init="msg='hello'">
+    <input type="text" ng-model = "msg">
+    <h1>{{msg}}</h1>
+    <h1 ng-bind="msg"></h1>   
+    <script>
+        /*
+        1.边界指令ng-app
+                描述:angularJS框架在使用时除了需要引用框架文件之外，还需要为框架指令指明一个边界
+                告知框架在那个范围内生效，若果不使用边界指令进行声明，则angularjs框架引入失败。
+                习惯上写在html便签之内，表明当前的页面中angularjs都能生效
+                语法 <html ng-app></html>
+                
+                注意:边界指令是使用NG框架必须要使用的一个指令，不写一定错误
+        2.呈现指令{{}}
+            描述: NG框架规定{{}}用来表现【内容呈现】功能
+                在{{}}中可以书写NG语法规则下的变量，字符串甚至是表达式 
+            说明:在上面的中{{msg}}就是使用呈现指令
+            强调: 呈现指令内只能书写符合ng框架内容
+                    不符合的不能写:如{{var num=1}};//不符合
+        3.ng-model(信息指令)
+            描述 ng-model用来对input或者textarea这类用于收集用户信息的标签进行数据绑定
+                ng-model所附的值，即为【保存用户输入内容的ng变量值】
+            语法: <textarea ... ng-model="message"></textarea>
+        4.绑定指令 ng-bind
+            描述: ng-bind对输入性的标签使用的类似于{{}}呈现指令的辅助指令
+            作用: ng加载失败时不会暴露出来
+            语法: <h1 ng-bind="msg"></h1>
+
+            {{}}能够进行字符串拼接 ng-bind不能够进行字符串拼接
+        5.初始化指令 ng-init
+            描述: ng框架中规定使用这个指令对边界内部的数据模型(NG变量)进行初始化操放在作
+                    ng-init 并没有规定具体的摆放位置，但习惯body上
+                会在页面加载后，自动对内部规定的数据进行初始化操作
+                语法: ng-init="msg='hello'"
+        6.ng-show 满足ng语法的表达时就会显示
+        */
+    </script>
+</body>
+</html>

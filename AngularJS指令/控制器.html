@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="mainController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title ng-bind="pageTitle"></title>
+    <script src="../angular.js"></script>
+</head>
+<body>
+    <h1>{{msg}}</h1>
+    <ul></ul>
+    <style>
+        /*
+            控制器:
+                1.angular.module()方法
+                    描述: 用来生成页面数据模型的方法
+                    语法: var 模型名称 = angular.module('边界名称'，[注册信息]);
+                    说明:  
+                    例子: var myApp_module = angular.module('app',[]);
+                2.声明控制器 ng-controller
+                    描述: 用来在页面中声明哪个元素为控制器
+                        控制器，就是用来操作数据和试图的部件
+                        语法: <html ng-controller="mainController">
+                        注意: 只要声明一个标签拥有控制器，这个控制器在脚本中必须要写
+                3.实现控制器方法 *.controller()
+                    描述: 本方法是用来生成【页面控制器】的方法
+                    语法: 页面数据模型名称.controller('控制器名称'，['$scope',function($scope){...}])
+
+                4.
+        */
+    </style>
+    <script>
+        var app = angular.module('app',[]);
+        console.log(app);
+        app.controller('mainController',['$scope',function($scope){
+            console.log(1);
+            $scope.pageTitle ="控制器";
+            $scope.msg = "控制器控制变量值";
+
+            $scope.names = ['frank','lily','hanMeiMei'];
+        }]);
+
+        /*
+		1.ng-controller与多控制器思想
+		描述：能够看到angular的操作，实际上脚本代码都是写在controller之中的。
+			  而刚刚我们将所有的脚本都堆积到一个控制器中的操作
+			  虽然理解上变得容易，但是实际开发过程中则会造成灾难
+
+			  所以为了便于团队开发，为了便于维护
+			  NG提出了【多控制器思想】
+		说明：
+			 (1)多控制器思想：
+			 	 类似于div中的布局思想，是将控制器按照页面的不同模块功能进行切分
+			 	 一个控制器只用来控制一个功能模块，多个控制器之间互不影响，独立工作。
+			 (2)优势：
+			 	 分工明确，代码清晰，便于维护
+			 	 当系统出现问题，能够立即定位到问题坐标
+			 (3)弊端：
+			 	 对于初学者而言，前期代码的架构会变得很繁琐，对初学者不是很友好。
+		强调：
+			 (1)每一个控制器只要被声明，就必须通过.controller实现
+			 	即便控制器中没有代码，也必须写出。
+			 (2)每一个控制器作用域可以认为是嵌套的，
+			 	即外层controller可以直接访问到内层controller内的NG变量
+			 	而同级controller之间互不影响
+			 (3)对于程序，习惯上mainController作为用户默认加载页面的根控制器
+			 	有且仅有唯一一个
+    */
+    
+    /*
+        工程化目录
+            结构为:
+            1.css
+                1.apps //放自己写的css代码
+                2.libs //放入一些库文件代码
+            2.js
+                1.apps //放入自己的js代码
+                    controllers //放入控制器的js代码的
+                        XXXcontroller.js //具体代码
+                    app.js //初始化等等的js代码
+                2.libs //引用的js代码
+            3.index.html
+    */      
+    </script>
+</body>
+</html>

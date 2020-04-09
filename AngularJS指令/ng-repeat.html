@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="mainController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title ng-bind="pageTitle"></title>
+    <script src="../angular.js"></script>
+</head>
+<body>
+    <h1>{{msg}}</h1>
+    <ul>
+        <li ng-repeat="pname in names track by $index">{{pname}}</li>
+    </ul>
+    <div ng-repeat="info in bookNames track by $index">
+        <span>author: {{info.author}}</span>
+        <span>bookName: {{info.bookName}}</span>
+    </div>
+    <style>
+        /*
+            1.ng-repeat：
+                描述 本指令用来便利ng变量，并根据其构造页面的html元素
+                语法:  
+                    说明 track by $index 表示可以有重复变量，若果不写出现重复会报错
+                例如:    <ul>
+                            <li ng-repeat="pname in names track by $index">{{pname}}</li>
+                        </ul>
+                        ng-repeat指令必须要在controller中对ng变量赋值后才会生效
+                            单独的ng-repeat毫无作用，因为ng变量不存在，没法赋值
+        */
+    </style>
+    <script>
+        var app = angular.module('app',[]);
+        console.log(app);
+        app.controller('mainController',['$scope',function($scope){
+            console.log(1);
+            $scope.pageTitle ="ng-repeat";
+            $scope.msg = "控制器控制变量值";
+
+            $scope.names = ['frank','lily','hanMeiMei'];
+
+            $scope.bookNames = [
+                {bookName: 'js入门',author:"frank"},
+                {bookName: 'js精通',author:"frank"}]
+        }]);
+    </script>
+</body>
+</html>
