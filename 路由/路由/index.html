@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title ng-bind="mainTitle"></title>
     <script src="../angular.js"></script>
+    <script src='../angular-route.min.js'></script>
 </head>
 <body>
-    <ul ng-controller="showNameController">
-        <li ng-repeat='pname in pnames track by $index'>{{pname}}</li>
+
+    <ul>
+        <li><a href="#showname">跳转namel列表</a></li>
+        <li><a href="#showinfo">跳转Info列表</a></li>
     </ul>
-    <div ng-controller='showInfoController'>
-        <div ng-repeat='info in infos track by $index'>
-            <h2>{{info.username}}</h2>
-            <p>{{info.password}}</p>
-        </div>
-    </div>
+    <div style="height: 300px; width: 300px; border: 1px solid black" ng-view></div>
+    
+   
     <script>
         /*
             1.router路由
@@ -31,8 +31,8 @@
                         通过config方法来构建一个路由
                         在路由中，通过.when()来判定加载哪一个页面
                         在路由中，通过otherwise()来决定路由默认加载哪一个页面
-                            app模型.config(['$routerProvider',function($routerProvider){
-                                $routerProvider.when('/页面'，{
+                            app模型.config(['$routeProvider',function($routeProvider){
+                                $routeProvider.when('/页面代号'，{
                                     templateUrl: '要加载的页面的url地址(以路由的所在位置为起点)'，
                                     controller： '对应页面的控制器名称'
                                 })
@@ -47,7 +47,21 @@
                                     语法：var app = angular.module('app',['ngRoute']);
                             (2)在承载不同的页面的内容上记得不要忘记加ng-view：否则路由选中的页面无法加载
         */
-        var app = angular.module('app',[]);
+       
+        app.config(['$routeProvider',function($routeProvider){
+            $routeProvider
+                .when('/showname',{
+                    templateUrl: 'showname.html',
+                    controller: 'showNameController'
+                })
+                .when('/showinfo',{
+                    templateUrl: 'showinfo.html',
+                    controller: 'showInfoController'
+                })
+                .otherwise({
+                    redirectTo: '/showname'
+                });
+        }]);
         app.controller('mainController',['$scope',function($scope){
             $scope.mainTitle = 'lesson1_路由router';
         }]);

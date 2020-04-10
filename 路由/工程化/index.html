@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="mainController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title ng-bind="mainTitle"></title>
+</head>
+<body>
+
+    <ul>
+        <li><a href="#showname">跳转namel列表</a></li>
+        <li><a href="#showinfo">跳转Info列表</a></li>
+    </ul>
+    <div style="height: 300px; width: 300px; border: 1px solid black" ng-view></div>
+    <script>
+        /*
+            1.router路由
+                描述: ng中提出的，用于构建单页面应用模块,其本质是从a标签点击跳转功能延展出来的
+                说明: 
+                    (1)router功能的实现需要依赖与angularJS的扩展文件angular-route.min.js
+                    (2)router功能的实现需要依赖于ng-view指令
+                        【ng-view】是用于标注【显示不同页面的容器】的作用
+                    (3)router的功能的实现是需要依赖于a标签的href属性
+                        href='#要加载的页面代号'
+                            此属性设置目的是在a标签点击时能够通知路由，要加载那个页面
+                    (4) router路由的具体语法是通过app页面数据模型创建的
+                        通过config方法来构建一个路由
+                        在路由中，通过.when()来判定加载哪一个页面
+                        在路由中，通过otherwise()来决定路由默认加载哪一个页面
+                            app模型.config(['$routeProvider',function($routeProvider){
+                                $routeProvider.when('/页面代号'，{
+                                    templateUrl: '要加载的页面的url地址(以路由的所在位置为起点)'，
+                                    controller： '对应页面的控制器名称'
+                                })
+                                otherwise({
+                                    redirectTo: '/默认加载页面的代号'
+                                });
+                            }])
+        
+                    注意:
+                            (1)若果需要使用路由功能，那么在创建页面数据模型app的时候,必须要注入一条名【ngRouter】的信息
+                                    必须注入信:息相当于对当前页面的声明：我要使用路由功能
+                                    语法：var app = angular.module('app',['ngRoute']);
+                            (2)在承载不同的页面的内容上记得不要忘记加ng-view：否则路由选中的页面无法加载
+        */
+    </script>
+    <script src="js/libs/angular.js"></script>
+    <script src="js/libs/angular-route.min.js"></script>
+    <script src="js/apps/app.js"></script>
+    <script src="js/apps/router.js"></script>
+    <script src="js/apps/controlers/mainController.js"></script>
+    <script src="js/apps/controlers/showInfoController.js"></script>
+    <script src="js/apps/controlers/showNameController.js"></script>
+</body>
+</html>
