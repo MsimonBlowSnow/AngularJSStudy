@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+<head lang='en'>
+	<meta charset='utf-8'/>
+	<title>lesson4_自定义指令</title>
+</head>
+<body>
+
+
+<div frankbutton></div>
+<frankbutton></frankbutton>
+<div class="frankbutton"></div>
+<!-- directive:frankbutton -->
+
+<script type="text/javascript" src='angular.js'></script>
+<script type="text/javascript">
+	var app = angular.module('app', []);
+	app.directive('frankbutton', function (){
+		return {
+			restrict:'AECM',
+			template:'<div><button>frank自定义的按钮</button></div>',
+			replace:true
+		};
+	});
+
+	/*
+		1.【指令】与【自定义指令】
+		描述：指令可以理解为属性，
+			  angularJS中的系统指令使得页面元素拥有了除了本身之外的一些特殊功能
+			  自定义指令更像是创造了一个组件(标签)
+		
+		2.如何自定义指令
+		描述：在angular框架内部，所有的自定义指令都是通过app.directivef()方法创建的。
+		语法：app数据模型.directive('自定义指令名称', function(){
+					return {
+						restrict:'指令类型',
+						template:'指令结构',
+						replace:'指令复写'
+					};
+			  });
+		说明：(1)restrict指令类型
+					描述：指令类型指的是，指令在页面中需要通过何种形式进行唤醒
+					类型：指令共计有四种唤醒方式，分别为"A"\"E"\"C"\"M"
+					说明：
+						  a:"A",指的是attribute，意味着指令需要通过属性的方式实现
+						  	eg:app.directive('frankbutton', function (){
+								return {
+									restrict:'A',
+									...
+								}
+						  	})
+						  b:"E",指的是element，意味着指令需要通过元素的方式进行唤醒
+						  c:"C",指的是class，意味着指令需要通过类名的方式呈现
+						  d:"M",指的是comment，意味着指令需要通过注释的方式进行唤醒
+					注意：
+						  a:指令名称必须采用小写，任何大写都会导致无效。
+						  b:指令名称如果是M类型，则replace字段就是必须写的，并且必须设置为true才能生效
+						  c:指令如果通过template加载，则有且仅有唯一一个根节点。
+			  (2)指令结构template
+			  		描述：指令结构template指的是指令在页面中能够显示的html结构
+			  			  如果需要从外部文件中加载指令的结构，则需要写成templateUrl
+			  (3)指令复写replace
+			  	    描述：指令复写指的是指令当在页面中存在时，
+			  	    	  是否会被当做是一个子元素添加到当前所在的元素内
+			  	    	  默认为false，表示不会当成是子元素，而是会直接替换当前元素
+			  	    	  可以设置为true，表示不覆盖当前元素，而是作为他的一个子元素添加到页面中
+	*/
+</script>
+</body>
+</html>

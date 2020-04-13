@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app='app' ng-controller='mainContorller'>
+<head lang="en">
+	<meta charset='utf-8'/>
+	<title>{{mainControllerTitle}}</title>
+</head>
+<body>
+
+<p>{{num}}</p>
+
+<script src="angular.js"></script>
+<script>
+	var app = angular.module('app', []);
+	app.controller('mainContorller', ['$scope', '$interval', '$timeout', function ($scope, $interval, $timeout){
+		$scope.mainControllerTitle = '时间轴服务';
+		$scope.num = 0;
+		
+		//间隔调用服务
+		var timer = null;
+		timer = $interval(function (){
+			if($scope.num>=99){
+				/*清除时间轴服务*/
+				$interval.cancel(timer);
+			}else{
+				$scope.num++;
+			}
+		}, 20);
+		//延迟调用服务
+		var timerout = null;
+		timerout = $timeout(function (){
+			alert('输出完毕！');
+		}, 2000);
+
+		console.log(timer);
+		console.log(timerout);
+	}]);
+	/*
+		1.时间轴服务
+		描述：时间轴服务共有三种，没有统一的名称
+			  在使用之前必须注入到controller之中才能使用
+		类型：【间隔调用服务$interval】【延迟调用服务$timeout】【清除时间轴内容服务】
+		补充：以上三种服务与bom中间隔调用等函数基本没有区别。
+	*/
+</script>
+</body>
+</html>

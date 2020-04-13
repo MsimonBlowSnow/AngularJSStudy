@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app='app' ng-controller='mainController'>
+<head lang="en">
+	<meta charset='utf-8'/>
+	<title>{{mainControllerTitle}}</title>
+</head>
+<body>
+
+<!-- controller1 向全局变量储存内容 -->
+<div class="div1" ng-controller='controller1'>
+	<input type="text" ng-model='msg'>
+	<button ng-click='submit(msg)'>保存</button>
+</div>
+<!-- controller2 从全局变量获取内容 -->
+<div class="div2" ng-controller='controller2'>
+	<p ng-bind='showMsg'></p>
+	<button ng-click='download()'>获取</button>
+</div>
+
+
+<script src="angular.js"></script>
+<script>
+	var app = angular.module('app', []);
+	app.value('globalObj',{});
+
+	app.controller('mainController', ['$scope', function ($scope){
+		$scope.mainControllerTitle = '自定义服务--value服务';
+		
+	}]);
+	//controller1
+	app.controller('controller1', ['$scope', 'globalObj', function ($scope, globalObj){
+		$scope.msg = '';
+		$scope.submit = function (tempMsg){
+			//向全局变量中存入msg
+			globalObj.inputMsg = tempMsg
+
+			//
+			$scope.showMsg = $scope.msg;
+			console.log($scope);
+			console.log($scope.showMsg);
+			console.log($scope.msg);
+		};
+	}]);
+	//controller2
+	app.controller('controller2', ['$scope', 'globalObj', function ($scope, globalObj){
+		$scope.showMsg = '';
+		$scope.download = function (){
+			//从全局变量中读取msg
+			$scope.showMsg = globalObj.inputMsg;
+		};
+	}]);
+
+
+	/*
+		1.自定义服务
+		描述：之前课程中我们提到过，angularJS中的服务实际上就是对app数据模型的扩展
+			  从某种意义上可以理解为【服务就是全局变量】的含义
+
+			  接下来要提到的自定义服务则很好的贯彻了这个观点
+			  系统服务是系统直接提供的，有不同的功能
+			  自定义服务需要手动编辑功能
+			  但两者都需要注入之后才能使用(特殊的服务不需要注入，$filter $watch)
+		说明：
+			  自定义服务的方式常见有五种：
+			  (1)value服务
+			  (2)constant服务
+			  (3)factory服务
+			  (4)service服务
+			  (5)provider服务
+		补充：
+			  不论哪一种自定义服务，自定义服务的目的基本都是一致的，就是提供一个全局变量
+			  来支持controller之间的交流
+
+		2.value自定义服务
+		描述：value服务是通过.value()方法对app数据模型进行扩展的一种服务定制方式
+			  通过对app进行扩展
+			  可以使得服务在controller之间进行信息交换，充当“全局变量”的角色
+		语法：app.value('自定义服务名称', 服务内容JSON);
+		说明：value服务实际上就是一个全局变量，所以可以随意的对其内容进行读取和修改
+		例子：
+			app.value('FrankService', {
+				pname:'frank'
+			});
+			...
+			$scope.msg = FrankService.pname;
+	*/
+</script>
+</body>
+</html>

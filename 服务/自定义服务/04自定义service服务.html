@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+<head lang="en">
+	<meta charset='utf-8'/>
+	<title>自定义服务--service服务</title>
+</head>
+<body>
+
+<!-- controller1 向全局变量储存内容 -->
+<div class="div1" ng-controller='controller1' style="width:300px; height:100px; border:1px solid black;">
+	<input type="text" ng-model='msg'>
+	<button ng-click='submit(msg)'>保存</button>
+</div>
+<!-- controller2 从全局变量获取内容 -->
+<div class="div2" ng-controller='controller2' style="width:300px; height:100px; border:1px solid black;">
+	<p ng-bind='showMsg'></p>
+	<button ng-click='download()'>获取</button>
+</div>
+
+<script src="angular.js"></script>
+<script>
+	var app = angular.module('app', []);
+	app.service('FrankService', function (){
+
+		this.pname = 'frank';
+		var secret = '这是一个小秘密';
+		//特权函数
+		this.setSecret = function (tempSecret){
+			secret = tempSecret;
+		}
+		this.getSecret = function (){
+			return secret;
+		};
+	});
+
+	//controller1
+	app.controller('controller1', ['$scope', function ($scope){
+		$scope.msg = '';
+		$scope.submit = function (tempMsg){
+			console.log('controller1中的内容被保存到了全局变量中');
+		};
+	}]);
+	//controller2
+	app.controller('controller2', ['$scope','FrankService', function ($scope, FrankService){
+		$scope.showMsg = '';
+		$scope.download = function (){
+			console.log('controller2中从全局变量中读取具体内容');
+			FrankService.setSecret('我饿了');
+			console.log(FrankService.getSecret());
+		};
+	}]);
+
+	/*
+		1.service服务
+		描述：service服务相当于本身已经构建了一个空白对象
+			  在服务内部所有内容的操作均通过this.来完成。
+	*/
+</script>
+</body>
+</html>

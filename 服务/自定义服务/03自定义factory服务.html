@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+<head lang="en">
+	<meta charset='utf-8'/>
+	<title>自定义服务--factory服务</title>
+</head>
+<body>
+
+<!-- controller1 向全局变量储存内容 -->
+<div class="div1" ng-controller='controller1' style="width:300px; height:100px; border:1px solid black;">
+	<input type="text" ng-model='msg'>
+	<button ng-click='submit(msg)'>保存</button>
+</div>
+<!-- controller2 从全局变量获取内容 -->
+<div class="div2" ng-controller='controller2' style="width:300px; height:100px; border:1px solid black;">
+	<p ng-bind='showMsg'></p>
+	<button ng-click='download()'>获取</button>
+</div>
+
+<div ng-controller="mingcontroller">{{name}}</div>
+<script src="angular.js"></script>
+<script>
+	var app = angular.module('app', []);
+	app.factory('FrankService', function (){
+		var obj = {};
+		obj.pname = 'frank';
+		return obj
+	});
+
+	//controller1
+	app.controller('controller1', ['$scope', 'FrankService', function ($scope, FrankService){
+		$scope.msg = '';
+		$scope.submit = function (tempMsg){
+			console.log('controller1中的内容被保存到了全局变量中');
+			FrankService.msg = tempMsg;
+		};
+	}]);
+	//controller2
+	app.controller('controller2', ['$scope', 'FrankService', function ($scope, FrankService){
+		$scope.showMsg = '';
+		$scope.download = function (){
+			console.log('controller2中从全局变量中读取具体内容');
+			console.log(FrankService.pname);
+			$scope.showMsg = FrankService.msg;
+		};
+	}]);
+
+	/*
+		1.factory服务
+		描述：factory服务是通过.factory()方法去创建一个object结构并直接返回的操作。
+		说明：乍一看返回一个对象，和直接value式提供一个对象并无区别
+			  但是通过函数返回一个对象，那么这个对象的所有结构就都是在函数内完成
+			  而函数内是可以对对象进行任意的操作和扩充的
+			  但是在value式固定结构中却无法做到
+	*/
+</script>
+
+<script>
+	app.factory("ming",function(){
+		var obj = {};
+		obj.setName = function(name){
+			obj.name =name;
+		};
+		return obj;
+	})
+	app.controller("mingcontroller",["$scope","ming",function($scope,ming){
+		ming.setName("朱相明");
+		$scope.name = ming.name;
+	}])
+</script>
+</body>
+</html>

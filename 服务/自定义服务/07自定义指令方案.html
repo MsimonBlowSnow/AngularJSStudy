@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+<head lang='en'>
+	<meta charset='utf-8'/>
+	<title>lesson5_自定义指令的指令方案</title>
+</head>
+<body>
+
+<div class="frankdiv"></div>
+
+<script type="text/javascript" src='angular.js'></script>
+<script type="text/javascript">
+	var app = angular.module('app', []);
+	app.directive('frankdiv', function (){
+		return {
+			restrict:'AECM',
+			template:'<div>'+
+						'<input type="text" ng-model="msg">'+
+						'<button ng-click="getMsg(msg)">获取输入内容</button>'+
+					 '</div>',
+			replace:true,
+			scope:{},
+			link:function (scope, element, attrs){
+
+				console.log(scope);
+				console.log(element[0].childNodes);
+				console.log(attrs);
+				// element[0].childNodes[1].ondblclick = function (){
+				// 	console.log('这是一个双击事件');
+				// };
+				attrs.$set('style','color:red');
+
+
+				scope.msg = '';
+				scope.getMsg = function (tempMsg){
+					console.log(tempMsg);
+				}
+			}
+		};
+	});
+
+	/*
+		1.指令方案link
+		描述：指令方案link是angularJS中提供给自定义指令的一种“专有行为”
+			  专门为自定义指令提供了一个用来编写对应脚本的区域
+		语法：app.directive('指令名称', function (){
+				 ...
+				 ...
+				 link:function (scope, element, attrs){...}
+			  });
+		说明：
+			  (1)scope：如果将整个指令看作是一个controller，那么scope的作用等价于$scope
+			  (2)element:一个包含了指令中所有页面元素的数组，每一个元素都是一个dom对象
+			  	         数组整体支持jq操作，而数组元素本身支持js原生操作
+			  (3)attrs：当前指令的属性集合，用来获取元素的属性。
+		补充：
+			  在指令内部，需要对scope进行初始化编辑
+			  ...
+			  scope:{},
+			  link:function (scope, element, attrs){...}
+			  原因是如果不进行初始化操作，那么scope默认为mainController中的$scope
+	*/
+</script>
+</body>
+</html>
